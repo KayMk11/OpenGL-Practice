@@ -10,7 +10,6 @@ int main()
 {
     window_manager wm;
     wm.init(800, 800, "Hello WM");
-
     gladLoadGL();
 
     glViewport(0, 0, 800, 800);

@@ -21,7 +21,8 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
-
+    if (activeCamera == NULL)
+        return;
     if (firstMouse)
     {
         lastx = xpos;
@@ -37,18 +38,23 @@ void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 }
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
+    if (activeCamera == NULL)
+        return;
     activeCamera->zoom((float)yoffset);
 }
 class window_manager
 {
     GLFWwindow *window;
     int height, width;
+    float deltaTime = 0.f;
+    float lastFrame = 0.f;
     std::string title;
     void processInput(float deltaTime)
     {
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
-
+        if (activeCamera == NULL)
+            return;
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
             activeCamera->move(FORWARD, .25f, deltaTime);
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
@@ -92,11 +98,17 @@ public:
     {
         return !glfwWindowShouldClose(window);
     }
-    void updateWindow(float deltaTime)
+    float updateWindow()
     {
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
         glfwSwapBuffers(window);
         glfwPollEvents();
         processInput(deltaTime);
+
+        return deltaTime;
     }
     void close()
     {

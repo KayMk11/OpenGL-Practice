@@ -1,5 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -27,10 +28,7 @@ void dumpMatrix(glm::mat4 &mat)
 int main()
 {
     window_manager wm;
-    wm.init(800, 800, "Hello Texture");
-
-    float deltaTime = 0.f;
-    float lastFrame = 0.f;
+    wm.init(800, 800, "Hello Camera");
 
     gladLoadGL();
     // glViewport(0, 0, 800, 800);
@@ -97,9 +95,6 @@ int main()
 
     while (wm.isWindowActive())
     {
-        float currentFrame = glfwGetTime();
-        deltaTime = currentFrame - lastFrame;
-        lastFrame = currentFrame;
 
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -123,7 +118,7 @@ int main()
 
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        wm.updateWindow(deltaTime);
+        wm.updateWindow();
         // std::cout << cam.position.x << " " << cam.position.y << " " << cam.position.z << std::endl;
     }
     wm.close();

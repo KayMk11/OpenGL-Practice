@@ -1,0 +1,191 @@
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+
+#include "shader.h"
+#include "camera.h"
+#include "window_manager.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#include <iostream>
+
+int main()
+{
+    window_manager wm;
+    wm.init(800, 800, "Hello Light");
+
+    gladLoadGL();
+    shader lightShader("./shaders/cube.vs", "./shaders/light.fs");
+    shader cubeShader("./shaders/cube.vs", "./shaders/cube.fs");
+
+    float vertices[] = {
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+
+        -0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+
+        -0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+
+        -0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+        -0.5f,
+        -0.5f,
+
+        -0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        0.5f,
+        -0.5f,
+        0.5f,
+        -0.5f,
+    };
+
+    unsigned int VAO, VBO;
+
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
+
+    camera cam;
+    wm.setActiveCamera(&cam);
+
+    auto lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
+    auto objectColor = glm::vec3(1.0f, 0.0f, 0.0f);
+
+    while (wm.isWindowActive())
+    {
+        /* code */
+        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        lightShader.use();
+        glBindVertexArray(VAO);
+
+        glm::mat4 projection = cam.getProjectionMatrix();
+        glm::mat4 view = cam.getViewMatrix();
+
+        glm::mat4 model(1.0f);
+        model = glm::translate(model, glm::vec3(1.f, 0.5f, -3.f));
+        model = glm::scale(model, glm::vec3(.25f, .25f, .25f));
+        lightShader.setMat4("projection", projection);
+        lightShader.setMat4("view", view);
+        lightShader.setMat4("model", model);
+        lightShader.setVec3("lightColor", lightColor);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        cubeShader.use();
+        model = glm::translate(glm::mat4(1.0f), glm::vec3(0.f, 0.f, -3.f));
+        cubeShader.setMat4("projection", projection);
+        cubeShader.setMat4("view", view);
+        cubeShader.setMat4("model", model);
+        cubeShader.setVec3("lightColor", lightColor);
+        cubeShader.setVec3("objectColor", objectColor);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        wm.updateWindow();
+    }
+}
