@@ -13,7 +13,7 @@
 int main()
 {
     window_manager wm;
-    wm.init(800, 800, "Hello Light");
+    wm.init(800, 800, "Hello Material");
 
     gladLoadGL();
 
@@ -99,7 +99,7 @@ int main()
         glm::mat4 view = cam.getViewMatrix();
 
         glm::mat4 model(1.0f);
-        glm::vec3 lightPos(1.f * sin(glfwGetTime()), 1.0f * cos(glfwGetTime()), -3.f);
+        glm::vec3 lightPos(1.f * sin(glfwGetTime()), 1.0f * cos(glfwGetTime()), -1.f);
         model = glm::translate(model, lightPos);
         model = glm::scale(model, glm::vec3(.25f, .25f, .25f));
         lightShader.setMat4("projection", projection);
@@ -117,6 +117,14 @@ int main()
         cubeShader.setVec3("objectColor", objectColor);
         cubeShader.setVec3("lightPos", lightPos);
         cubeShader.setVec3("viewPos", cam.position);
+        cubeShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
+        cubeShader.setVec3("material.diffuse", 1.0f, 0.5f, 0.31f);
+        cubeShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
+        cubeShader.setFloat("material.shininess", 32.0f);
+
+        cubeShader.setVec3("light.ambient", 0.1f, 0.1f, 0.f);
+        cubeShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f); // darken diffuse light a bit
+        cubeShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f);
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
         wm.updateWindow();
