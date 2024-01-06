@@ -71,6 +71,9 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "valarray": "cpp",
+        "any": "cpp",
+        "shared_mutex": "cpp"
     }
 }

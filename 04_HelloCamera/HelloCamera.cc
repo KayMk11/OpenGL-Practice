@@ -32,7 +32,7 @@ int main()
 
     gladLoadGL();
     // glViewport(0, 0, 800, 800);
-    shader ourShader("./shaders/transform.vs", "./shaders/transform.fs");
+    Shader ourShader("./shaders/transform.vs", "./shaders/transform.fs");
 
     float vertices[] = {
         // positions      // texture coords
@@ -90,7 +90,7 @@ int main()
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
-    camera cam;
+    Camera cam;
     wm.setActiveCamera(&cam);
 
     while (wm.isWindowActive())

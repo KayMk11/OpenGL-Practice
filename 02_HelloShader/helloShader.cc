@@ -8,12 +8,12 @@
 
 int main()
 {
-    window_manager wm;
+    WindowManager wm;
     wm.init(800, 800, "Hello WM");
     gladLoadGL();
 
     glViewport(0, 0, 800, 800);
-    shader ourShader("./shaders/default.vs", "./shaders/default.fs");
+    Shader ourShader("./shaders/default.vs", "./shaders/default.fs");
 
     float vertices[] = {
         -0.5f, -0.5f, 0.0f,

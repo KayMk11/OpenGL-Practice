@@ -1,5 +1,5 @@
 #pragma once
 
-class input_manager
+class Input_manager
 {
 };

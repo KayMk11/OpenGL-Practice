@@ -15,7 +15,7 @@ enum direction
     RIGHT
 };
 
-class camera
+class Camera
 {
     void updateCameraVectors()
     {
@@ -31,7 +31,7 @@ public:
     float yaw = -90.f, pitch = 0.f;
     float fov;
 
-    camera()
+    Camera()
     {
         position = glm::vec3(0.f, 0.f, 0.f);
         forward = glm::vec3(0.f, 0.f, -1.f);

@@ -14,8 +14,8 @@ int main()
     wm.init(800, 800, "Hello LightingMaps");
 
     gladLoadGL();
-    shader lightShader("./shaders/cube.vs", "./shaders/light.fs");
-    shader cubeShader("./shaders/cube.vs", "./shaders/cube.fs");
+    Shader lightShader("./shaders/cube.vs", "./shaders/light.fs");
+    Shader cubeShader("./shaders/cube.vs", "./shaders/cube.fs");
 
     float vertices[] = {
         // positions          // normals           // texture coords
@@ -80,7 +80,7 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    camera cam;
+    Camera cam;
     wm.setActiveCamera(&cam);
 
     auto lightColor = glm::vec3(1.0f, 1.0f, 1.0f);

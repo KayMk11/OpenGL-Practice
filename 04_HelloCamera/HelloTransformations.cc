@@ -20,7 +20,7 @@ int main()
 
     gladLoadGL();
     glViewport(0, 0, 800, 800);
-    shader ourShader("./shaders/transform.vs", "./shaders/transform.fs");
+    Shader ourShader("./shaders/transform.vs", "./shaders/transform.fs");
 
     float vertices[] = {
         // positions      // texture coords

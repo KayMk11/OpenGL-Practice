@@ -12,12 +12,12 @@
 
 int main()
 {
-    window_manager wm;
+    WindowManager wm;
     wm.init(800, 800, "Hello Texture");
 
     gladLoadGL();
     glViewport(0, 0, 800, 800);
-    shader ourShader("./shaders/texture.vs", "./shaders/texture.fs");
+    Shader ourShader("./shaders/texture.vs", "./shaders/texture.fs");
 
     float vertices[] = {
         // positions      // texture coords

@@ -9,7 +9,7 @@
 #include <sstream>
 #include <iostream>
 
-class shader
+class Shader
 {
     unsigned int ID;
     void checkErrors(unsigned int shader, std::string type)
@@ -42,7 +42,7 @@ class shader
     }
 
 public:
-    shader(std::string vertexShaderPath, std::string fragmentShaderPath)
+    Shader(std::string vertexShaderPath, std::string fragmentShaderPath)
     {
         std::string vertexShaderCode;
         std::string fragmentShaderCode;

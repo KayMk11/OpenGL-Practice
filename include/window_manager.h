@@ -10,7 +10,7 @@
 
 bool firstMouse = true;
 float lastx, lasty;
-camera *activeCamera;
+Camera *activeCamera;
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -42,7 +42,7 @@ void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
         return;
     activeCamera->zoom((float)yoffset);
 }
-class window_manager
+class WindowManager
 {
     GLFWwindow *window;
     int height, width;
@@ -56,13 +56,13 @@ class window_manager
         if (activeCamera == NULL)
             return;
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            activeCamera->move(FORWARD, .25f, deltaTime);
+            activeCamera->move(FORWARD, .5f, deltaTime);
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-            activeCamera->move(LEFT, .25f, deltaTime);
+            activeCamera->move(LEFT, .5f, deltaTime);
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-            activeCamera->move(BACKWARD, .25f, deltaTime);
+            activeCamera->move(BACKWARD, .5f, deltaTime);
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-            activeCamera->move(RIGHT, .25f, deltaTime);
+            activeCamera->move(RIGHT, .5f, deltaTime);
     }
 
 public:
@@ -90,7 +90,7 @@ public:
         glfwSetScrollCallback(window, scroll_callback);
         return true;
     }
-    void setActiveCamera(camera *cam)
+    void setActiveCamera(Camera *cam)
     {
         activeCamera = cam;
     }
