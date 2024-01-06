@@ -6,11 +6,9 @@
 #include <iostream>
 #include <string>
 
-#include "camera.h"
+#include "input_manager.h"
 
-bool firstMouse = true;
-float lastx, lasty;
-Camera *activeCamera;
+InputManager *im;
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
@@ -21,26 +19,21 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 
 void mouse_callback(GLFWwindow *window, double xpos, double ypos)
 {
-    if (activeCamera == NULL)
+    if (im == NULL)
         return;
-    if (firstMouse)
-    {
-        lastx = xpos;
-        lasty = ypos;
-        firstMouse = false;
-        return;
-    }
-    float xoffset = xpos - lastx;
-    float yoffset = lasty - ypos;
-    lastx = xpos;
-    lasty = ypos;
-    activeCamera->rotate(xoffset, yoffset);
+    InputEvent event;
+    event.type = MOUSE;
+    event.x = (float)xpos;
+    event.y = (float)ypos;
+    im->process(event);
 }
 void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 {
-    if (activeCamera == NULL)
+    if (im == NULL)
         return;
-    activeCamera->zoom((float)yoffset);
+    InputEvent event;
+    event.y = (float)yoffset;
+    im->process(event);
 }
 class WindowManager
 {
@@ -53,16 +46,24 @@ class WindowManager
     {
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);
-        if (activeCamera == NULL)
+
+        if (im == NULL)
             return;
+
+        InputEvent event;
+        event.type = KEYBOARD;
+        event.delta_time = deltaTime;
+
         if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-            activeCamera->move(FORWARD, .5f, deltaTime);
+            event.pressed_keys.push_back(GLFW_KEY_W);
         if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-            activeCamera->move(LEFT, .5f, deltaTime);
+            event.pressed_keys.push_back(GLFW_KEY_A);
         if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-            activeCamera->move(BACKWARD, .5f, deltaTime);
+            event.pressed_keys.push_back(GLFW_KEY_S);
         if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-            activeCamera->move(RIGHT, .5f, deltaTime);
+            event.pressed_keys.push_back(GLFW_KEY_D);
+
+        im->process(event);
     }
 
 public:
@@ -90,9 +91,10 @@ public:
         glfwSetScrollCallback(window, scroll_callback);
         return true;
     }
-    void setActiveCamera(Camera *cam)
+
+    void set_input_manager(InputManager &_im)
     {
-        activeCamera = cam;
+        im = &_im;
     }
     int isWindowActive()
     {
