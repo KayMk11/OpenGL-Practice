@@ -19,8 +19,8 @@ int main()
     im.add_keyboard_listener(cam);
     im.add_mouse_listener(cam);
     im.add_scroll_listener(cam);
-    Shader ourShader("./shaders/model.vs", "./shaders/model.fs");
     wm.set_input_manager(im);
+    Shader ourShader("./shaders/model.vs", "./shaders/model.fs");
     Model ourModel("/home/kaymk11/Code/OpenGL/resources/models/sphere.obj");
     glEnable(GL_DEPTH_TEST);
 
