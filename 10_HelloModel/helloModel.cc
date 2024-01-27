@@ -11,7 +11,7 @@
 int main()
 {
     WindowManager wm;
-    wm.init(800, 800, "Hello Multiple Lights");
+    wm.init(800, 800, "Hello Model");
     gladLoadGL();
 
     InputManager im;
