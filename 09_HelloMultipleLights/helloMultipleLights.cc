@@ -99,8 +99,12 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
+    InputManager im;
     Camera cam;
-    wm.setActiveCamera(&cam);
+    im.add_keyboard_listener(cam);
+    im.add_mouse_listener(cam);
+    im.add_scroll_listener(cam);
+    wm.set_input_manager(im);
     cam.position = glm::vec3(.0f, .0f, 3.0f);
     auto lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
     glEnable(GL_DEPTH_TEST);

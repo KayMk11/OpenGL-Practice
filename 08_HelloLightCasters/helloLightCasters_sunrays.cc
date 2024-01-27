@@ -11,7 +11,7 @@
 
 int main()
 {
-    window_manager wm;
+    WindowManager wm;
     wm.init(800, 800, "Hello Sun Rays");
 
     gladLoadGL();
@@ -96,8 +96,12 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
+    InputManager im;
     Camera cam;
-    wm.setActiveCamera(&cam);
+    im.add_keyboard_listener(cam);
+    im.add_mouse_listener(cam);
+    im.add_scroll_listener(cam);
+    wm.set_input_manager(im);
     cam.position = glm::vec3(0.0f, 0.0f, 3.0f);
     glEnable(GL_DEPTH_TEST);
     glm::vec3 lightColor(1.0f, 1.0f, 1.0f);

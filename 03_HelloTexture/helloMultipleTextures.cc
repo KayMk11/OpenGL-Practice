@@ -11,7 +11,7 @@
 
 int main()
 {
-    window_manager wm;
+    WindowManager wm;
     wm.init(800, 800, "Hello Multiple textures");
 
     gladLoadGL();

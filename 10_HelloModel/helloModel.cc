@@ -11,12 +11,16 @@
 int main()
 {
     WindowManager wm;
-    wm.init(800, 800, "Hello Multiple Lights");
+    wm.init(800, 800, "Hello Model");
     gladLoadGL();
 
-    Shader ourShader("./shaders/model.vs", "./shaders/model.fs");
+    InputManager im;
     Camera cam;
-    wm.setActiveCamera(&cam);
+    im.add_keyboard_listener(cam);
+    im.add_mouse_listener(cam);
+    im.add_scroll_listener(cam);
+    wm.set_input_manager(im);
+    Shader ourShader("./shaders/model.vs", "./shaders/model.fs");
     Model ourModel("/home/kaymk11/Code/OpenGL/resources/models/sphere.obj");
     glEnable(GL_DEPTH_TEST);
 

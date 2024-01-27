@@ -12,7 +12,7 @@
 
 int main()
 {
-    window_manager wm;
+    WindowManager wm;
     wm.init(800, 800, "Hello Light");
 
     gladLoadGL();
@@ -80,8 +80,12 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
+    InputManager im;
     Camera cam;
-    wm.setActiveCamera(&cam);
+    im.add_keyboard_listener(cam);
+    im.add_mouse_listener(cam);
+    im.add_scroll_listener(cam);
+    wm.set_input_manager(im);
 
     auto lightColor = glm::vec3(1.0f, 1.0f, 1.0f);
     auto objectColor = glm::vec3(1.0f, 0.5f, 0.31f);

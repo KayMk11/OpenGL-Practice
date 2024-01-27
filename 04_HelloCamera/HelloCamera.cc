@@ -27,7 +27,7 @@ void dumpMatrix(glm::mat4 &mat)
 
 int main()
 {
-    window_manager wm;
+    WindowManager wm;
     wm.init(800, 800, "Hello Camera");
 
     gladLoadGL();
@@ -90,9 +90,12 @@ int main()
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
+    InputManager im;
     Camera cam;
-    wm.setActiveCamera(&cam);
-
+    im.add_keyboard_listener(cam);
+    im.add_mouse_listener(cam);
+    im.add_scroll_listener(cam);
+    wm.set_input_manager(im);
     while (wm.isWindowActive())
     {
 

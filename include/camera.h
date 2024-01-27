@@ -2,10 +2,13 @@
 #define CAMERA_H
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <vector>
+
+#include "listeners.h"
 
 enum direction
 {
@@ -15,7 +18,7 @@ enum direction
     RIGHT
 };
 
-class Camera
+class Camera : public KeyboardListener, public MouseListener, public ScrollListener
 {
     void updateCameraVectors()
     {
@@ -30,6 +33,7 @@ public:
     float sensitivity = 0.1f;
     float yaw = -90.f, pitch = 0.f;
     float fov;
+    float speed = 0.5f;
 
     Camera()
     {
@@ -83,6 +87,39 @@ public:
             fov = 1.0f;
         if (fov > 45.0f)
             fov = 45.0f;
+    }
+    void process_keyboard(float delta_time, std::vector<unsigned int> &pressed_keys) override
+    {
+        for (auto key : pressed_keys)
+        {
+            if (key == GLFW_KEY_W)
+                move(FORWARD, speed, delta_time);
+            if (key == GLFW_KEY_A)
+                move(LEFT, speed, delta_time);
+            if (key == GLFW_KEY_S)
+                move(BACKWARD, speed, delta_time);
+            if (key == GLFW_KEY_D)
+                move(RIGHT, speed, delta_time);
+        }
+    }
+    void process_mouse(float new_x, float new_y) override
+    {
+        if (first_mouse)
+        {
+            last_x = new_x;
+            last_y = new_y;
+            first_mouse = false;
+            return;
+        }
+        float xoffset = new_x - last_x;
+        float yoffset = last_y - new_y;
+        last_x = new_x;
+        last_y = new_y;
+        rotate(xoffset, yoffset);
+    }
+    void process_scroll(float offset) override
+    {
+        zoom((offset));
     }
 };
 #endif
