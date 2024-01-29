@@ -34,7 +34,6 @@ public:
         this->material = material;
 
         setup_mesh();
-        material.setup_material();
     }
 
     void draw(Shader &shader)

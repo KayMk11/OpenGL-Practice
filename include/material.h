@@ -1,7 +1,7 @@
 #include <glm/glm.hpp>
 
 #include <string>
-
+#include "shader.h"
 #include "texture.h"
 
 class Material
@@ -63,6 +63,8 @@ public:
             shader.setVec3(name + ".ambient", ambient);
             shader.setVec3(name + ".diffuse", diffuse);
             shader.setVec3(name + ".specular", specular);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, 0);
         }
         else
         {

@@ -97,6 +97,8 @@ private:
             material.map_alpha_path = objmesh.MeshMaterial.map_d;
             material.map_bump_path = objmesh.MeshMaterial.map_bump;
 
+            material.setup_material();
+
             Mesh mesh(vertices, indices, material);
             meshes.push_back(mesh);
         }
