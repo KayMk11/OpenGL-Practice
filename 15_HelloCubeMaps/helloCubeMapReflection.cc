@@ -21,7 +21,7 @@ unsigned int loadCubemap(std::vector<std::string> faces)
         unsigned char *data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
         if (data)
         {
-            stbi_set_flip_vertically_on_load(false);  
+            // stbi_set_flip_vertically_on_load(false);  
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
             stbi_image_free(data);
         }
@@ -52,10 +52,10 @@ int main()
     im.add_mouse_listener(cam);
     im.add_scroll_listener(cam);
     wm.set_input_manager(im);
-    Shader ourShader("./shaders/model.vs", "./shaders/model.fs");
+    Shader ourShader("./shaders/skybox2.vs", "./shaders/skybox2.fs");
     Shader skyboxShader("./shaders/skybox.vs", "./shaders/skybox.fs");
 
-    Model ourModel("/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/models/cube.obj");
+    Model ourModel("/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/models/sphere.obj");
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);  
     glCullFace(GL_BACK);  
@@ -145,6 +145,7 @@ int main()
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
         ourShader.setMat4("model", model);
+        ourShader.setVec3("cameraPos", cam.position);
         ourModel.draw(ourShader);
 
         glDepthFunc(GL_LEQUAL);
