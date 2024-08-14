@@ -37,6 +37,7 @@ void scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
 }
 class WindowManager
 {
+public:
     GLFWwindow *window;
     int height, width;
     float deltaTime = 0.f;
@@ -66,7 +67,6 @@ class WindowManager
         im->process(event);
     }
 
-public:
     int init(int height, int width, std::string title)
     {
         this->height = height;

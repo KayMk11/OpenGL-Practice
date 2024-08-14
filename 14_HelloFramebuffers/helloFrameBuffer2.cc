@@ -23,9 +23,9 @@ int main()
     Shader shader("./shaders/model.vs", "./shaders/model.fs");
     Shader fbShader("./shaders/framebuffer.vs", "./shaders/framebuffer.fs");
 
-    Model sphere("/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/models/sphere.obj");
-    Model cube("/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/models/cube.obj");
-    Model plane("/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/models/plane.obj");
+    Model sphere("/home/kaymk11/Code/OpenGL-Practice/resources/models/sphere.obj");
+    Model cube("/home/kaymk11/Code/OpenGL-Practice/resources/models/cube.obj");
+    Model plane("/home/kaymk11/Code/OpenGL-Practice/resources/models/plane.obj");
     
     float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
         // positions   // texCoords
@@ -53,25 +53,23 @@ int main()
     fbShader.use();
     fbShader.setInt("screenTexture", 0);
 
-    unsigned int framebuffer;
-    glGenFramebuffers(1, &framebuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    unsigned int fbo;
+    glGenFramebuffers(1, &fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
-    unsigned int textureColorBuffer;
-    glGenTextures(1, &textureColorBuffer);
-    glBindTexture(GL_TEXTURE_2D, textureColorBuffer);
+    unsigned int tbo;
+    glGenTextures(1, &tbo);
+    glBindTexture(GL_TEXTURE_2D, tbo);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 800, 800, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // glBindTexture(GL_TEXTURE_2D, 0);
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorBuffer, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tbo, 0);
 
     unsigned int rbo;
     glGenRenderbuffers(1, &rbo);
     glBindRenderbuffer(GL_RENDERBUFFER, rbo);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 800, 800);
-    // glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
     glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
 
@@ -81,7 +79,7 @@ int main()
 
     while(wm.isWindowActive())
     {
-        glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, fbo);
         glEnable(GL_DEPTH_TEST);
     
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
@@ -92,10 +90,9 @@ int main()
         // glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         shader.use();
-        glm::mat4 projection = cam.getProjectionMatrix();
-        glm::mat4 view = cam.getViewMatrix();
-        shader.setMat4("projection", projection);
-        shader.setMat4("view", view);
+        shader.setMat4("projection", cam.getProjectionMatrix());
+        shader.setMat4("view", cam.getViewMatrix());
+        shader.setMat4("model", glm::mat4(1.0f));
 
         glm::mat4 plane_model = glm::translate(glm::mat4(1.f), glm::vec3(0.f, -1.0f, 0.f));
         plane_model = glm::scale(plane_model, glm::vec3(50.f, 50.f, 50.f));
@@ -119,7 +116,7 @@ int main()
 
         fbShader.use();
         glBindVertexArray(quadVAO);
-        glBindTexture(GL_TEXTURE_2D, textureColorBuffer);
+        glBindTexture(GL_TEXTURE_2D, tbo);
         glDrawArrays(GL_TRIANGLES, 0, 6);   
 
         wm.updateWindow();

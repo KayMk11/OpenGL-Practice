@@ -46,5 +46,6 @@ struct Texture
         }
         this->ID = textureID;
         this->type = type;
+        glBindTexture(GL_TEXTURE_2D, 0);
     };
 };

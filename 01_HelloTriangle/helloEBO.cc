@@ -130,6 +130,9 @@ int main()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
+    std::cout << "sizeof(vertices) : " << sizeof(vertices) << std::endl;
+    std::cout << "sizeof(indices) : " << sizeof(indices) << std::endl;
+
     // Render loop
     while (!glfwWindowShouldClose(window))
     {

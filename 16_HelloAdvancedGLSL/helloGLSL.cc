@@ -29,7 +29,7 @@ int main()
     Shader shader3("./shaders/model.vs", "./shaders/model3.fs");
     Shader shader4("./shaders/model.vs", "./shaders/model4.fs");
 
-    Model cube("/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/models/cube.obj");
+    Model cube("/home/kaymk11/Code/OpenGL-Practice/resources/models/cube.obj");
     glEnable(GL_DEPTH_TEST);
 
     unsigned int uniformBlock1 = glGetUniformBlockIndex(shader1.ID, "Matrices");

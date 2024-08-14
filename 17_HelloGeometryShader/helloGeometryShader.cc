@@ -4,7 +4,6 @@
 #include "window_manager.h"
 #include "camera.h"
 #include "model.h"
-#include "input_manager.h"
 
 int main()
 {
@@ -22,7 +21,7 @@ int main()
     Shader shader("./shaders/model.vs", "./shaders/model.fs", "./shaders/model.gs");
     // Shader shader("./shaders/model.vs", "./shaders/model.fs", "");
 
-    Model sphere("/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/models/sphere.obj");
+    Model sphere("/home/kaymk11/Code/OpenGL-Practice/resources/models/sphere.obj");
     glEnable(GL_DEPTH_TEST);
 
     while (wm.isWindowActive())

@@ -18,7 +18,7 @@ int main()
     im.add_scroll_listener(cam);
     wm.set_input_manager(im);
     Shader ourShader("./shaders/model.vs", "./shaders/model.fs");
-    Model ourModel("/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/models/cube.obj");
+    Model ourModel("/home/kaymk11/Code/OpenGL-Practice/resources/models/cube.obj");
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);  
     glCullFace(GL_BACK);  
@@ -51,7 +51,7 @@ int main()
     {
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         ourShader.use();
         glm::mat4 projection = cam.getProjectionMatrix();
         glm::mat4 view = cam.getViewMatrix();

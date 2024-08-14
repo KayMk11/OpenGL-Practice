@@ -7,7 +7,7 @@
 #include "model.h"
 #include "camera.h"
 
-const std::string cube_map_path = "/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/textures/skybox/";
+const std::string cube_map_path = "/home/kaymk11/Code/OpenGL-Practice/resources/textures/skybox/";
 
 unsigned int loadCubemap(std::vector<std::string> faces)
 {
@@ -55,7 +55,7 @@ int main()
     Shader ourShader("./shaders/skybox2.vs", "./shaders/skybox2.fs");
     Shader skyboxShader("./shaders/skybox.vs", "./shaders/skybox.fs");
 
-    Model ourModel("/home/kaymk11/Code/OpenGL/OpenGL-Practice/resources/models/sphere.obj");
+    Model ourModel("/home/kaymk11/Code/OpenGL-Practice/resources/models/sphere.obj");
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_CULL_FACE);  
     glCullFace(GL_BACK);  
